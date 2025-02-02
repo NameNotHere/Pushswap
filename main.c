@@ -1,6 +1,3 @@
-
-
-
 #include <limits.h>
 
 typedef struct stack
