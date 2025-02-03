@@ -6,7 +6,7 @@
 /*   By: otanovic <otanovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:28:20 by otanovic          #+#    #+#             */
-/*   Updated: 2025/02/03 15:55:17 by otanovic         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:50:04 by otanovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ typedef struct t_node
 {
 	struct t_node	*next;
 	struct t_node	*prev;
+	struct t_node	*head;
+	struct t_node	*tail;
 	int				value;
 }	t_node;
 
+// atoi
 int	signs_and_spaces(const char *s, int i)
 {
 	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n' || s[i] == '\v'
@@ -66,7 +69,7 @@ int	ft_atoi(const char *s)
 	}
 	return (num * sign);
 }
-
+// init
 t_node	*ft_initnode(char *num)
 {
 	t_node	*s;
@@ -81,6 +84,83 @@ t_node	*ft_initnode(char *num)
 	return (s);
 }
 
+//Swap functions
+
+void	sa(t_node **head)
+{
+	t_node	*first;
+	t_node	*second;
+
+	if (*head && (*head)->next)
+	{
+		first = *head;
+		second = first->next;
+
+		first->next = second->next;
+		if (second->next)
+			second->next->prev = first;
+		second->prev = NULL;
+		second->next = first;
+		*head = second;
+	}
+}
+
+void	sb(t_node **head)
+{
+	t_node	*first;
+	t_node	*second;
+
+	if (*head && (*head)->next)
+	{
+		first = *head;
+		second = first->next;
+
+		first->next = second->next;
+		if (second->next)
+			second->next->prev = first;
+		second->prev = NULL;
+		second->next = first;
+		*head = second;
+	}
+}
+
+void	ss(t_node **a, t_node **b)
+{
+	t_node	*first;
+	t_node	*second;
+
+	if (*a && (*a)->next)
+	{
+		first = *a;
+		second = first->next;
+		first->next = second->next;
+		if (second->next)
+			second->next->prev = first;
+		second->prev = NULL;
+		second->next = first;
+		*a = second;
+	}
+	if (*b && (*b)->next)
+	{
+		first = *b;
+		second = first->next;
+		first->next = second->next;
+		if (second->next)
+			second->next->prev = first;
+		second->prev = NULL;
+		second->next = first;
+		*b = second;
+	}
+}
+
+void	pa(t_node **a, t_node **b) // doesnt work
+{
+	if (*b == NULL)
+		return ;
+	(*a)->next = *b;
+	(*b)->prev->next = NULL;
+}
+
 int	main(int argc, char** argv)
 {
 	t_node	*head;
@@ -90,9 +170,7 @@ int	main(int argc, char** argv)
 
 	head = NULL;
 	i = 1;
-	if (argc <= 1)
-		return (0);
-	while (i <= (argc - 1))
+	while (i <= (argc - 1) && argc >= 1)
 	{
 		new_node = ft_initnode(argv[i]);
 		if (!new_node)
@@ -107,14 +185,16 @@ int	main(int argc, char** argv)
 			tail->next = new_node;
 			new_node->prev = tail;
 			tail = new_node;
+			new_node->head = head;
 		}
 		i++;
 	}
+	sa(&head);
 	i = 0;
-    t_node *current = head;
-    while (current)
-    {
-        printf("%d ", current->value);
-        current = current->next;
-    }
+	t_node *current = head;
+	while (current)
+	{
+		printf("%d ", current->value);
+		current = current->next;
+	}
 }
