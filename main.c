@@ -1,10 +1,25 @@
-#include <limits.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: otanovic <otanovic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/03 15:28:20 by otanovic          #+#    #+#             */
+/*   Updated: 2025/02/03 15:55:17 by otanovic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef struct stack
+#include <limits.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct t_node
 {
-	int	*value;
-	int	size;
-};
+	struct t_node	*next;
+	struct t_node	*prev;
+	int				value;
+}	t_node;
 
 int	signs_and_spaces(const char *s, int i)
 {
@@ -52,25 +67,54 @@ int	ft_atoi(const char *s)
 	return (num * sign);
 }
 
-char *ft_initstack(int argc, char **argv)
+t_node	*ft_initnode(char *num)
 {
-	int *stack;
-	int	i;
+	t_node	*s;
 
-	i = 0;
-	stack = malloc(sizeof(int) * argc);
-	while (i <= argc)
+	s = (t_node *) malloc(sizeof(t_node));
+	if (s)
 	{
-		stack[i] = ft_atoi(argv[i]);
-		i++;
+		s->value = ft_atoi(num);
+		s->next = NULL;
+		s->prev = NULL;
 	}
+	return (s);
 }
 
 int	main(int argc, char** argv)
 {
-	char	*args;
+	t_node	*head;
+	t_node	*tail;
+	t_node	*new_node;
+	int		i;
+
+	head = NULL;
+	i = 1;
 	if (argc <= 1)
 		return (0);
-	args = ft_initistack(argc, argv);
-
+	while (i <= (argc - 1))
+	{
+		new_node = ft_initnode(argv[i]);
+		if (!new_node)
+			return (1);
+		if (!head)
+		{
+			head = new_node;
+			tail = new_node;
+		}
+		else
+		{
+			tail->next = new_node;
+			new_node->prev = tail;
+			tail = new_node;
+		}
+		i++;
+	}
+	i = 0;
+    t_node *current = head;
+    while (current)
+    {
+        printf("%d ", current->value);
+        current = current->next;
+    }
 }
