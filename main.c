@@ -6,7 +6,7 @@
 /*   By: otanovic <otanovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:28:20 by otanovic          #+#    #+#             */
-/*   Updated: 2025/02/03 17:50:04 by otanovic         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:59:24 by otanovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,12 +153,16 @@ void	ss(t_node **a, t_node **b)
 	}
 }
 
-void	pa(t_node **a, t_node **b) // doesnt work
+void	pa(t_node **a, t_node **b) // fix the prev and next logic in your code dumbass
 {
+	t_node	*temp;
 	if (*b == NULL)
 		return ;
+	temp = *b;
+	*b = (*b)->next;
 	(*a)->next = *b;
 	(*b)->prev->next = NULL;
+	(*b)->prev = NULL;
 }
 
 int	main(int argc, char** argv)
@@ -167,6 +171,12 @@ int	main(int argc, char** argv)
 	t_node	*tail;
 	t_node	*new_node;
 	int		i;
+
+	t_node	b;
+	t_node	c;
+	b.next = &c;
+	c.prev = &b;
+	t_node	*t = &b;
 
 	head = NULL;
 	i = 1;
@@ -189,7 +199,7 @@ int	main(int argc, char** argv)
 		}
 		i++;
 	}
-	sa(&head);
+	pa(&head, &t);
 	i = 0;
 	t_node *current = head;
 	while (current)
