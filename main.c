@@ -6,7 +6,7 @@
 /*   By: otanovic <otanovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:28:20 by otanovic          #+#    #+#             */
-/*   Updated: 2025/02/05 15:55:29 by otanovic         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:48:27 by otanovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ t_node	*ft_initnode(char *num)
 	}
 	return (s);
 }
-
 //Swap functions
-
 void	sa(t_node **head)
 {
 	t_node	*first;
@@ -174,11 +172,41 @@ void	pb(t_node **a, t_node **b)
 	if (*b == NULL)
 		return ;
 	if ((*a)->next)
-		temp = (*b)->next;
+		temp = (*a)->next;
 	(*a)->next = *b;
 	(*b)->prev = *a;
 	*b = *a;
 	*a = temp;
+}
+
+void	ra(t_node **a)
+{
+	t_node	*temp;
+
+	if (*a == NULL || (*a)->next == NULL)
+		return ; 
+	temp = (*a);
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = (*a);
+	(*a) = temp;
+	temp->prev->next = NULL;
+	(*a)->prev = NULL;
+}
+
+void	rb(t_node **a)
+{
+	t_node	*temp;
+
+	if (*a == NULL || (*a)->next == NULL)
+		return ; 
+	temp = (*a);
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = (*a);
+	(*a) = temp;
+	temp->prev->next = NULL;
+	(*a)->prev = NULL;
 }
 
 int	main(int argc, char** argv)
@@ -187,14 +215,6 @@ int	main(int argc, char** argv)
 	t_node	*tail;
 	t_node	*new_node;
 	int		i;
-
-	t_node	b;
-	t_node	c;
-	b.next = &c;
-	c.prev = &b;
-	b.value = 10;
-	c.value = 4;
-	t_node	*t = &b;
 
 	head = NULL;
 	i = 1;
@@ -216,7 +236,19 @@ int	main(int argc, char** argv)
 		}
 		i++;
 	}
-	pb(&head, &t);
+
+	t_node	b;
+	t_node	c;
+	b.prev = NULL;
+	b.next = &c;
+	c.prev = &b;
+	c.next = NULL;
+	b.value = 10;
+	c.value = 4;
+	t_node	*t = &b;
+
+	ra(&head);
+	//pa(&head, &t);
 	//pa(&head, &t);
 	i = 0;
 	t_node *current = head;
@@ -225,10 +257,4 @@ int	main(int argc, char** argv)
 		printf("%d ", current->value);
 		current = current->next;
 	}
-	/*current = t;
-	while (current)
-	{
-		printf("%d ", current->value);
-		current = current->next;
-	}*/
 }
