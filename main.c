@@ -6,7 +6,7 @@
 /*   By: otanovic <otanovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:28:20 by otanovic          #+#    #+#             */
-/*   Updated: 2025/02/03 17:59:24 by otanovic         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:55:29 by otanovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ typedef struct t_node
 {
 	struct t_node	*next;
 	struct t_node	*prev;
-	struct t_node	*head;
-	struct t_node	*tail;
 	int				value;
 }	t_node;
 
@@ -95,7 +93,6 @@ void	sa(t_node **head)
 	{
 		first = *head;
 		second = first->next;
-
 		first->next = second->next;
 		if (second->next)
 			second->next->prev = first;
@@ -114,7 +111,6 @@ void	sb(t_node **head)
 	{
 		first = *head;
 		second = first->next;
-
 		first->next = second->next;
 		if (second->next)
 			second->next->prev = first;
@@ -153,16 +149,36 @@ void	ss(t_node **a, t_node **b)
 	}
 }
 
-void	pa(t_node **a, t_node **b) // fix the prev and next logic in your code dumbass
+void	pa(t_node **a, t_node **b)
 {
 	t_node	*temp;
+
 	if (*b == NULL)
 		return ;
-	temp = *b;
-	*b = (*b)->next;
+	if (*a == NULL) // might not need this
+		return ;
+	if ((*b)->next)
+		temp = (*b)->next;
+	(*b)->next = *a;
+	(*a)->prev = *b;
+	*a = *b;
+	*b = temp;
+}
+
+void	pb(t_node **a, t_node **b)
+{
+	t_node	*temp;
+
+	if (*a == NULL)// might not need this
+		return ;
+	if (*b == NULL)
+		return ;
+	if ((*a)->next)
+		temp = (*b)->next;
 	(*a)->next = *b;
-	(*b)->prev->next = NULL;
-	(*b)->prev = NULL;
+	(*b)->prev = *a;
+	*b = *a;
+	*a = temp;
 }
 
 int	main(int argc, char** argv)
@@ -176,6 +192,8 @@ int	main(int argc, char** argv)
 	t_node	c;
 	b.next = &c;
 	c.prev = &b;
+	b.value = 10;
+	c.value = 4;
 	t_node	*t = &b;
 
 	head = NULL;
@@ -195,11 +213,11 @@ int	main(int argc, char** argv)
 			tail->next = new_node;
 			new_node->prev = tail;
 			tail = new_node;
-			new_node->head = head;
 		}
 		i++;
 	}
-	pa(&head, &t);
+	pb(&head, &t);
+	//pa(&head, &t);
 	i = 0;
 	t_node *current = head;
 	while (current)
@@ -207,4 +225,10 @@ int	main(int argc, char** argv)
 		printf("%d ", current->value);
 		current = current->next;
 	}
+	/*current = t;
+	while (current)
+	{
+		printf("%d ", current->value);
+		current = current->next;
+	}*/
 }
