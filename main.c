@@ -6,7 +6,7 @@
 /*   By: otanovic <otanovic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:28:20 by otanovic          #+#    #+#             */
-/*   Updated: 2025/02/05 19:48:27 by otanovic         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:54:24 by otanovic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	pb(t_node **a, t_node **b)
 	*a = temp;
 }
 
-void	ra(t_node **a)
+void	rra(t_node **a)
 {
 	t_node	*temp;
 
@@ -194,7 +194,7 @@ void	ra(t_node **a)
 	(*a)->prev = NULL;
 }
 
-void	rb(t_node **a)
+void	rrb(t_node **a)
 {
 	t_node	*temp;
 
