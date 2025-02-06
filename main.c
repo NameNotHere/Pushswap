@@ -209,6 +209,31 @@ void	rrb(t_node **a)
 	(*a)->prev = NULL;
 }
 
+void	rrr(t_node **a, t_node **b)
+{
+	t_node	*temp;
+
+	if (*a == NULL || (*a)->next == NULL)
+		return ; 
+	temp = (*a);
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = (*a);
+	(*a) = temp;
+	temp->prev->next = NULL;
+	(*a)->prev = NULL;
+
+	if (*b == NULL || (*b)->next == NULL)
+		return ; 
+	temp = (*b);
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = (*b);
+	(*b) = temp;
+	temp->prev->next = NULL;
+	(*b)->prev = NULL;
+}
+
 int	main(int argc, char** argv)
 {
 	t_node	*head;
@@ -247,9 +272,7 @@ int	main(int argc, char** argv)
 	c.value = 4;
 	t_node	*t = &b;
 
-	ra(&head);
-	//pa(&head, &t);
-	//pa(&head, &t);
+	rrr(&t, &head);
 	i = 0;
 	t_node *current = head;
 	while (current)
