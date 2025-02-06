@@ -238,14 +238,60 @@ void	ra(t_node **a)
 	t_node	*first;
 	t_node	*last;
 
+    if (!a || !(*a) || !((*a)->next))
+        return ;
 	first = *a;
 	last = *a;
 	while (last->next != NULL)
 		last = last->next;
-	last->prev->next = first;
-	last->next = first->next;
-	first->prev = last->prev;
-	first->prev = NULL;
+	*a = first->next;
+	(*a)->prev = NULL;
+	last->next = first;
+	first->next = NULL;
+}
+
+void	rb(t_node **b)
+{
+	t_node	*first;
+	t_node	*last;
+
+    if (!b || !(*b) || !((*b)->next))
+        return ;
+	first = *b;
+	last = *b;
+	while (last->next != NULL)
+		last = last->next;
+	*b = first->next;
+	(*b)->prev = NULL;
+	last->next = first;
+	first->next = NULL;
+}
+
+void	rr(t_node **a, t_node **b)
+{
+	t_node	*first;
+	t_node	*last;
+
+    if (!b || !(*b) || !((*b)->next))
+        return ;
+	first = *b;
+	last = *b;
+	while (last->next != NULL)
+		last = last->next;
+	*b = first->next;
+	(*b)->prev = NULL;
+	last->next = first;
+	first->next = NULL;
+	if (!a || !(*a) || !((*a)->next))
+        return ;
+	first = *a;
+	last = *a;
+	while (last->next != NULL)
+		last = last->next;
+	*a = first->next;
+	(*a)->prev = NULL;
+	last->next = first;
+	first->next = NULL;
 }
 
 int	main(int argc, char** argv)
@@ -286,7 +332,7 @@ int	main(int argc, char** argv)
 	c.value = 4;
 	t_node	*t = &b;
 
-	ra(&head);
+	rr(&head, &t);
 	i = 0;
 	t_node *current = head;
 	while (current)
