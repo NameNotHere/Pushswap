@@ -235,11 +235,17 @@ void	rrr(t_node **a, t_node **b)
 
 void	ra(t_node **a)
 {
-	t_node	*temp;
+	t_node	*first;
+	t_node	*last;
 
-	temp = *a;
-	while ((*a)->next != NULL)
-		a = (*a)->next;
+	first = *a;
+	last = *a;
+	while (last->next != NULL)
+		last = last->next;
+	last->prev->next = first;
+	last->next = first->next;
+	first->prev = last->prev;
+	first->prev = NULL;
 }
 
 int	main(int argc, char** argv)
