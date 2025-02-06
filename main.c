@@ -21,7 +21,6 @@ typedef struct t_node
 	int				value;
 }	t_node;
 
-// atoi
 int	signs_and_spaces(const char *s, int i)
 {
 	while (s[i] == ' ' || s[i] == '\t' || s[i] == '\n' || s[i] == '\v'
@@ -67,7 +66,7 @@ int	ft_atoi(const char *s)
 	}
 	return (num * sign);
 }
-// init
+
 t_node	*ft_initnode(char *num)
 {
 	t_node	*s;
@@ -81,7 +80,7 @@ t_node	*ft_initnode(char *num)
 	}
 	return (s);
 }
-//Swap functions
+
 void	sa(t_node **head)
 {
 	t_node	*first;
@@ -234,6 +233,15 @@ void	rrr(t_node **a, t_node **b)
 	(*b)->prev = NULL;
 }
 
+void	ra(t_node **a)
+{
+	t_node	*temp;
+
+	temp = *a;
+	while ((*a)->next != NULL)
+		a = (*a)->next;
+}
+
 int	main(int argc, char** argv)
 {
 	t_node	*head;
@@ -272,7 +280,7 @@ int	main(int argc, char** argv)
 	c.value = 4;
 	t_node	*t = &b;
 
-	rrr(&t, &head);
+	ra(&head);
 	i = 0;
 	t_node *current = head;
 	while (current)
